@@ -2,9 +2,6 @@
 const fs = require('fs')
 const path = require('path')
 
-// Capture watchmode argument
-const watchMode = process.argv.indexOf('-w') !== -1 || process.argv.indexOf('--watch') !== -1;
-
 // Define our compiled asset files
 const jsOutputTemplate = 'javascripts/application.js'
 
@@ -40,33 +37,5 @@ module.exports = {
         presets: ['es2015']
       }
     }]
-  },
-
-  plugins: [
-    function () {
-      if (!watchMode) {
-        // delete previous output of compiled assets
-        this.plugin('compile', function () {
-          let basepath = path.join(__dirname, '/public')
-          let paths = ['/javascripts', '/stylesheets']
-
-          for (let x = 0; x < paths.length; x++) {
-            const assetPath = path.join(basepath, paths[x])
-
-            fs.readdir(assetPath, function (err, files) {
-              if (files === undefined) {
-                return
-              } else if (err) {
-                console.log(err)
-              }
-
-              for (let i = 0; i < files.length; i++) {
-                fs.unlinkSync(path.join(assetPath, '/', files[i]))
-              }
-            })
-          }
-        })
-      }
-    }
-  ]
+  }
 }
