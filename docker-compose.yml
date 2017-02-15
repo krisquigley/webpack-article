@@ -1,0 +1,23 @@
+version: '2.1'
+
+services:
+  rails_web:
+    build: .
+    image: app
+    command: bash -c "bundle install && bundle exec rails s -b 0.0.0.0 -p 3000"
+    volumes:
+      - .:/app
+      - gem_cache:/gems
+    ports:
+      - '3000:3000'
+
+  webpack_web:
+    image: app
+    command: bash -c "yarn install && webpack -w"
+    volumes:
+      - .:/app
+    depends_on:
+      - rails_web
+
+volumes:
+  gem_cache:
