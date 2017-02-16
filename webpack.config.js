@@ -1,9 +1,11 @@
 // Import external libraries
 const path = require('path')
 const webpack = require('webpack')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 // Define our compiled asset files
 const jsOutputTemplate = 'javascripts/application.js'
+const cssOutputTemplate = 'stylesheets/application.css'
 
 module.exports = {
   // Remove this if you are not using Docker
@@ -18,7 +20,7 @@ module.exports = {
 
   // What js / CSS files should we read from and generate
   entry: {
-    application: './javascripts/application.js'
+    application: ['./javascripts/application.js', './stylesheets/application.sass']
   },
 
   // Define where to save assets to
@@ -36,10 +38,13 @@ module.exports = {
       query: {
         presets: ['es2015', 'react']
       }
-    }]
+    },
+    { test: /\.css$/, loaders: ExtractTextPlugin.extract('css-loader') },
+    { test: /\.sass$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) }]
   },
 
   plugins: [
+    new ExtractTextPlugin({ filename: cssOutputTemplate, allChunks: true }),
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery',
