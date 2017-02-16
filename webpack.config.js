@@ -1,6 +1,6 @@
 // Import external libraries
-const fs = require('fs')
 const path = require('path')
+const webpack = require('webpack')
 
 // Define our compiled asset files
 const jsOutputTemplate = 'javascripts/application.js'
@@ -37,5 +37,13 @@ module.exports = {
         presets: ['es2015']
       }
     }]
-  }
+  },
+
+  plugins: [
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery',
+      'window.jQuery': 'jquery'
+    })
+  ]
 }
