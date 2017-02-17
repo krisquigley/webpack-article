@@ -4,12 +4,13 @@ const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
+// Capture production argument
+const prod = process.argv.indexOf('-p') !== -1
+
 // Define our compiled asset files
 const jsOutputTemplate = prod ? 'javascripts/[name]-[hash].js' : 'javascripts/[name].js'
 const cssOutputTemplate = prod ? 'stylesheets/[name]-[hash].css' : 'stylesheets/[name].css'
 
-// Capture production argument
-const prod = process.argv.indexOf('-p') !== -1
 
 module.exports = {
   // Remove this if you are not using Docker
