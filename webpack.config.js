@@ -3,14 +3,21 @@ const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const CompressionPlugin = require('compression-webpack-plugin') // Gzip assets
 
 // Capture production argument
 const prod = process.argv.indexOf('-p') !== -1
 
-// Define our compiled asset files
+// Define what we do differently in production
 const jsOutputTemplate = prod ? 'javascripts/[name]-[hash].js' : 'javascripts/[name].js'
 const cssOutputTemplate = prod ? 'stylesheets/[name]-[hash].css' : 'stylesheets/[name].css'
-
+const compressFiles = prod ? [new CompressionPlugin({
+  asset: '[path].gz[query]',
+  algorithm: 'gzip',
+  test: /\.js$|\.css$|\.html$/,
+  threshold: 10240,
+  minRatio: 0.8
+})] : []
 
 module.exports = {
   // Remove this if you are not using Docker
@@ -65,5 +72,5 @@ module.exports = {
         fs.writeFileSync('config/initializers/fingerprint.rb', output, 'utf8')
       })
     }
-  ]
+  ].concat(compressFiles)
 }
