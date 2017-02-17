@@ -1,24 +1,5 @@
-# README
+# Replacing the asset pipeline with Webpack 2 in Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+This is an example project which contains all of the code as discussed in my article of the same name.
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+It is based on Docker and so only requires Docker to be installed and then initialized with `./bin/docker/boot`.  The rest should be taken care of by Docker.

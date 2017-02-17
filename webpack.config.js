@@ -1,11 +1,15 @@
 // Import external libraries
+const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 
 // Define our compiled asset files
-const jsOutputTemplate = 'javascripts/application.js'
-const cssOutputTemplate = 'stylesheets/application.css'
+const jsOutputTemplate = prod ? 'javascripts/[name]-[hash].js' : 'javascripts/[name].js'
+const cssOutputTemplate = prod ? 'stylesheets/[name]-[hash].css' : 'stylesheets/[name].css'
+
+// Capture production argument
+const prod = process.argv.indexOf('-p') !== -1
 
 module.exports = {
   // Remove this if you are not using Docker
@@ -52,6 +56,13 @@ module.exports = {
       $: 'jquery',
       jQuery: 'jquery',
       'window.jQuery': 'jquery'
-    })
+    }),
+    function () {
+      // output the fingerprint
+      this.plugin('done', function (stats) {
+        let output = 'ASSET_FINGERPRINT = "' + stats.hash + '"'
+        fs.writeFileSync('config/initializers/fingerprint.rb', output, 'utf8')
+      })
+    }
   ]
 }

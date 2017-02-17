@@ -3,11 +3,11 @@
   <head>
     <title>WebpackArticle</title>
     <%= csrf_meta_tags %>
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag    fingerprinted_asset('application'), media: 'all' %>
   </head>
 
   <body>
     <%= yield %>
-    <%= javascript_include_tag 'application' %>
+    <%= javascript_include_tag fingerprinted_asset('application'), async: !Rails.env.development? %>
   </body>
 </html>

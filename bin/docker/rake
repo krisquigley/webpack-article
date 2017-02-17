@@ -1,2 +1,2 @@
 #!/bin/bash
-./bundle exec rake $@
+./bin/docker/bundle exec rake $@
