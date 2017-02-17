@@ -20,7 +20,7 @@ module.exports = {
 
   // What js / CSS files should we read from and generate
   entry: {
-    application: ['./javascripts/application.js', './stylesheets/application.sass']
+    application: ['bootstrap-loader', './javascripts/application.js', './stylesheets/application.sass']
   },
 
   // Define where to save assets to
@@ -39,8 +39,11 @@ module.exports = {
         presets: ['es2015', 'react']
       }
     },
+    { test: /bootstrap-sass\/assets\/javascripts\//, loader: 'imports-loader?jQuery=jquery' },
     { test: /\.css$/, loaders: ExtractTextPlugin.extract('css-loader') },
-    { test: /\.sass$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) }]
+    { test: /\.sass$/, loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader']) },
+    { test: /\.(woff2?|svg)$/, loader: 'url-loader?limit=10000&name=/fonts/[name].[ext]' },
+    { test: /\.(ttf|eot)$/, loader: 'file-loader?name=/fonts/[name].[ext]' }]
   },
 
   plugins: [

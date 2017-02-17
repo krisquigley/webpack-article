@@ -13,7 +13,7 @@ services:
 
   webpack_web:
     image: app
-    command: bash -c "yarn install && webpack -w"
+    command: bash -c "yarn install --no-bin-links && webpack -w"
     volumes:
       - .:/app
     depends_on:
